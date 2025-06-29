@@ -128,7 +128,7 @@ else:
                 st.write(f"**Alternate-Flug:** {format_time(time_alt)}, {fuel_alt:.1f} l")
                 st.write(f"**Gesamtdauer (ohne Alternate):** {format_time(time_climb + time_cruise)}")
                 st.write(f"**Gesamtverbrauch (ohne Alternate):** {total_fuel:.1f} Liter")
-                st.write(f"**Gesamtverbrauch inkl. Alternate:** {grand_total_fuel:.1f} Liter")
+                st.write(f"**Tanken inkl. Alternate + Reserven + Zusätzlicher Kraftstoff:** {grand_total_fuel:.1f} Liter")
             else:
                 st.warning("Nicht genug Daten für Cruise-Interpolation.")
     else:
