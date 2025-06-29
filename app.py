@@ -27,9 +27,9 @@ track = st.number_input("Flugrichtung (Track) [°]", min_value=0, max_value=360,
 wind_dir = st.number_input("Windrichtung (woher) [°]", min_value=0, max_value=360, step=1)
 wind_speed = st.number_input("Windstärke [kt]", min_value=0.0, step=0.5)
 
-# Hilfsfunktion zur Windkomponente
+# Korrigierte Windkomponenten-Berechnung
 def calc_wind_component(wind_dir, track, wind_speed):
-    angle = math.radians(wind_dir - track)
+    angle = math.radians(track - wind_dir)
     return wind_speed * math.cos(angle)
 
 wind_comp = calc_wind_component(wind_dir, track, wind_speed)
@@ -77,7 +77,7 @@ else:
 
     if len(climb_segment) >= 2:
         weights = climb_segment["Weight [kg]"].values
-        time_climb = np.interp(weight_input, weights, climb_segment["Time [MIN]"].values) / 60  # in Stunden
+        time_climb = np.interp(weight_input, weights, climb_segment["Time [MIN]"].values) / 60
         fuel_climb = np.interp(weight_input, weights, climb_segment["Fuel [l]"].values)
         dist_climb = np.interp(weight_input, weights, climb_segment["Distance [NM]"].values)
 
@@ -108,7 +108,12 @@ else:
                 grand_total_fuel = total_fuel + fuel_alt
 
                 st.success("Ergebnisse")
-                st.write(f"**Windkomponente auf dem Kurs:** {wind_comp:.1f} kt")
+
+                if wind_comp < 0:
+                    st.write(f"**Gegenwind:** {abs(wind_comp):.1f} kt")
+                else:
+                    st.write(f"**Rückenwind:** {wind_comp:.1f} kt")
+
                 st.write(f"**Climb {climb_altitude} ft über Startplatz:** {format_time(time_climb)}, {fuel_climb:.1f} l, {dist_climb:.1f} NM")
                 st.write(f"**Cruise auf {rounded_target_altitude} ft:** {format_time(time_cruise)}, {fuel_cruise:.1f} l, {remaining_distance:.1f} NM")
                 st.write("---")
