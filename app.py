@@ -27,9 +27,10 @@ track = st.number_input("Flugrichtung (Track) [°]", min_value=0, max_value=360,
 wind_dir = st.number_input("Windrichtung (woher) [°]", min_value=0, max_value=360, step=1)
 wind_speed = st.number_input("Windstärke [kt]", min_value=0.0, step=0.5)
 
-# Korrigierte Windkomponenten-Berechnung
+# ✅ Korrekte Windkomponentenberechnung
 def calc_wind_component(wind_dir, track, wind_speed):
-    angle = math.radians(track - wind_dir)
+    wind_vector_dir = (wind_dir + 180) % 360
+    angle = math.radians((wind_vector_dir - track + 180) % 360 - 180)
     return wind_speed * math.cos(angle)
 
 wind_comp = calc_wind_component(wind_dir, track, wind_speed)
@@ -111,8 +112,10 @@ else:
 
                 if wind_comp < 0:
                     st.write(f"**Gegenwind:** {abs(wind_comp):.1f} kt")
-                else:
+                elif wind_comp > 0:
                     st.write(f"**Rückenwind:** {wind_comp:.1f} kt")
+                else:
+                    st.write("**Windkomponente:** 0 kt (Querwind)")
 
                 st.write(f"**Climb {climb_altitude} ft über Startplatz:** {format_time(time_climb)}, {fuel_climb:.1f} l, {dist_climb:.1f} NM")
                 st.write(f"**Cruise auf {rounded_target_altitude} ft:** {format_time(time_cruise)}, {fuel_cruise:.1f} l, {remaining_distance:.1f} NM")
