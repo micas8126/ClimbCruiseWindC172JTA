@@ -14,8 +14,8 @@ st.markdown("Berechnung von **Time** und **Fuel [l]** unter Berücksichtigung vo
 # Eingaben
 weight_input = st.number_input("Gewicht [kg]", min_value=1111, max_value=1157, step=1)
 total_distance = st.number_input("Gesamtdistanz [NM]", min_value=10.0, step=1.0)
-start_altitude = st.number_input("Startflughöhe [ft]", min_value=0, max_value=18000, step=100)
-target_altitude = st.number_input("Ziel-Flughöhe [ft]", min_value=0, max_value=18000, step=100)
+start_altitude = st.number_input("Startflugplatz Höhe [ft]", min_value=0, max_value=18000, step=100)
+target_altitude = st.number_input("Maximale Flughöhe [ft]", min_value=0, max_value=18000, step=100)
 load_input = st.selectbox("Cruise Load [%]", sorted(cruise_df["Load [%]"].unique(), reverse=True))
 alternate_distance = st.number_input("Alternate-Distanz [NM]", min_value=0.0, step=1.0)
 additional_fuel = st.number_input("Zusätzlicher Kraftstoff [l]", min_value=0.0, step=0.5)
