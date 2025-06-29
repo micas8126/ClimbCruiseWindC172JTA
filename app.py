@@ -102,11 +102,11 @@ else:
                 fuel_landing = 1.0    # Landeanflug
                 fuel_reserve = 17.0   # Reserve fix
 
-                total_time = time_climb + time_cruise
-                total_fuel = (fuel_climb + fuel_cruise +
-                              fuel_departure + fuel_landing + fuel_reserve + additional_fuel)
+                # ✅ Korrigierter Gesamtverbrauch (ohne Alternate)
+                total_fuel = fuel_climb + fuel_cruise + fuel_departure + fuel_landing
 
-                grand_total_fuel = total_fuel + fuel_alt
+                # ✅ Endgültige Gesamtsumme inkl. Reserve, Zusatz, Alternate
+                grand_total_fuel = total_fuel + fuel_reserve + additional_fuel + fuel_alt
 
                 st.success("Ergebnisse")
 
@@ -126,7 +126,7 @@ else:
                 st.write(f"**Zusatzkraftstoff:** {additional_fuel:.1f} l")
                 st.write("---")
                 st.write(f"**Alternate-Flug:** {format_time(time_alt)}, {fuel_alt:.1f} l")
-                st.write(f"**Gesamtdauer (ohne Alternate):** {format_time(total_time)}")
+                st.write(f"**Gesamtdauer (ohne Alternate):** {format_time(time_climb + time_cruise)}")
                 st.write(f"**Gesamtverbrauch (ohne Alternate):** {total_fuel:.1f} Liter")
                 st.write(f"**Gesamtverbrauch inkl. Alternate:** {grand_total_fuel:.1f} Liter")
             else:
